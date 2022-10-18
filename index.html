@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @font-face {
+            font-family: Quicksands;
+            src: url(quicksand-v30-latin-regular.woff2);
+        }
+        *{
+            overflow: hidden;
+            box-sizing: border-box;
+            font-family: Quicksands;
+            margin: 0;
+            padding: 0;
+        }
+        h1{
+            font-weight: 900;
+        }
+        section{
+            float: left;
+            padding: 150px;
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            height: 100vh;
+            justify-content: space-between;
+        }
+        .ingr{
+            display: flex;
+            flex-direction: column;
+        }
+        input{
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: #181818 solid 1px;
+        }
+        input:focus{
+            border: none;
+            outline: #181818 solid 1px;
+        }
+        label:nth-child(1){
+            margin-top: 20px;
+        }
+        button{
+            padding: 10px;
+            font-weight: bolder;
+            background-color: #181818;
+            color: white;
+        }
+        aside{
+            width: 50%;
+            float: right;
+        }
+        aside img{
+            width: 105%;
+        }
+        .warn{
+            border: red solid 1px;
+            height: 30px;
+            padding: 5px;
+            border-radius: 5px;
+            display: none;
+            justify-content: space-between;
+        }
+        .warn p{
+            margin: 0;
+            font-size: 13px;
+            color: red;
+        }
+        .warn span{
+            font-size: 17px;
+            color: red;
+        }
+        main{
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            width: fit-content;
+            background-color: #181818;
+        }
+        main button{
+            padding: 10px;
+            font-weight: bolder;
+            border: none;
+            background-color: white;
+            color: #181818;
+            margin-top: 20px;
+        }
+        .wrap{
+            width: 100%;
+            height: 100vh;
+            background-color: #181818;
+        }
+        canvas{
+            margin-left: 20%;
+            background-color: #181818;
+            border: white solid 2px;
+            margin: 0 auto;
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <header>
+        <section>
+            <div class="top">
+                <h1>Log In</h1>
+                <div class="ingr">
+                    <label for="user">Username :</label>
+                    <input type="text" onkeyup="validate('user')" onkeydown="validate('user')" placeholder="username" id="user">
+                    <div class="warn" id="usr-alert">
+                        <p id="res-usr"></p>
+                        <span class="material-symbols-outlined">info</span>
+                    </div>
+                </div>
+                <div class="ingr">
+                    <label for="pass">Password :</label>
+                    <input onkeyup="validate('pass')" onkeydown="validate('pass')" type="password" placeholder="password" id="pass">
+                    <div class="warn" id="pass-alert">
+                        <p id="res-pass"></p>
+                        <span class="material-symbols-outlined">info</span>
+                    </div>
+                </div>
+            </div>
+            <button onclick="validate('submit')">Login</button>
+        </section>
+        <aside>
+            <img src="Frame.png" alt="OOPS!">
+        </aside>
+    </header>
+    <div class="wrap">
+        <main>
+
+            <button onclick="reset()">Reset</button>
+        </main>
+    </div>
+    <script>
+        function clear(){
+            document.getElementById("usr-alert").style.display = "none"
+            document.getElementById("pass-alert").style.display = "none"
+
+        }
+        function reset(){
+            window.location.reset()
+        }
+        function validate(type){
+            var usr = document.getElementById("user").value
+            var pass = document.getElementById("pass").value
+            var alusr = document.getElementById("usr-alert")
+            var alpass = document.getElementById("pass-alert")
+            var resUser = document.getElementById("res-usr")
+            var resPass = document.getElementById("res-pass")
+            var login = document.querySelector("header")
+            if(type == "user"){
+                if(usr == "" || usr == undefined){
+                    resUser.innerHTML = "Cannot Empty"
+                    alusr.style.display = "flex"
+                }else if(!(usr == "Rachel")){
+                    resUser.innerHTML = "Wrong User FOOL"
+                    alusr.style.display = "flex"
+                }else{
+                    alusr.style.display = "none"
+                }
+            }else if(type == "pass"){
+                if(pass == "" || usr == undefined){
+                    resPass.innerHTML = "Cannot Empty"
+                    alpass.style.display = "flex"
+                }else if(!(pass == "1234")){
+                    resPass.innerHTML = "Wrong Password FOOL"
+                    alpass.style.display = "flex"
+                }else{
+                    alpass.style.display = "none"
+                }
+            }else if(type == "submit"){
+                if(usr == "Rachel" && pass == "1234"){
+                    swal({
+                    icon: 'success',
+                    title: 'Login success',
+                    text: 'hello '+usr+" testtt",
+                    timer: 4000,
+                    })
+                    setTimeout(dis, 4000)
+                    }else{
+                        resUser.innerHTML = "Wrong User FOOL"
+                    alusr.style.display = "flex"
+                }
+            }
+            function dis(){
+                login.style.display = "none"
+                startGame()
+            }
+        }
+
+var myGamePiece, myGamePiece2, myuser;
+
+function startGame() {
+    myGamePiece2 = new component(40, 40, "white", 10, 120);
+    myGamePiece = new component(30, 30, "grey", 10, 120);
+    myuser = new component("15px", "Consolas", "white", 10, 40, "text");
+    myGameArea.start();
+}
+
+// create canvas
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 1000;
+        this.canvas.height = 270;
+        this.context = this.canvas.getContext("2d");
+        document.querySelector("main").insertBefore(this.canvas, document.querySelector("main").childNodes[0]);
+        this.interval = setInterval(updateGameArea, 20);
+        // keydown for movement
+        window.addEventListener('keydown', function (e) {
+            myGameArea.keys = (myGameArea.keys || []);
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
+        })
+        // --
+
+        // for any(dont know?)
+        window.addEventListener('keyup', function (e) {
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");            
+        })
+        // --
+    }, 
+    // for clear
+    clear : function(){
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+    // --
+}
+// --
+
+// add component
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    this.gamearea = myGameArea;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;    
+    // updating component
+    this.update = function() {
+        ctx = myGameArea.context;
+        if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    // --
+
+    // update movement
+    this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+    }    
+    // --
+}
+// --
+
+// running frame
+function updateGameArea() {
+    myGameArea.clear();
+    myGamePiece.speedX = 0;
+    myGamePiece.speedY = 0;
+    myGamePiece2.speedX = 0;
+    myGamePiece2.speedY = 0;
+    // check what key was pressed
+    if (myGameArea.keys && myGameArea.keys[65]) {myGamePiece.speedX = -1; }
+    if (myGameArea.keys && myGameArea.keys[68]) {myGamePiece.speedX = 1; }
+    if (myGameArea.keys && myGameArea.keys[87]) {myGamePiece.speedY = -1; }
+    if (myGameArea.keys && myGameArea.keys[83]) {myGamePiece.speedY = 1; }
+
+    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece2.speedX = -1; }
+    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece2.speedX = 1; }
+    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece2.speedY = -1; }
+    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece2.speedY = 1; }
+    // --
+    myGamePiece.newPos();
+    myGamePiece.update();
+    myGamePiece2.newPos();
+    myGamePiece2.update();
+    myuser.text="Username : Rachel"
+    myuser.update();
+}
+    </script>
+</body>
+</html>
